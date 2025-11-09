@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StepCard from './StepCard';
+import Funnel from './Funnel';
 import { Rocket, Users, ShieldCheck, Trophy } from 'lucide-react';
 
 const iconMap = {
@@ -66,50 +67,17 @@ function HowItWorks() {
   ];
 
   const [activeIdx, setActiveIdx] = useState(0);
-  const ActiveIcon = iconMap[steps[activeIdx].step] || Rocket;
 
   return (
     <section className="bg-white">
       <div className="max-w-6xl mx-auto px-6 pb-16">
-        {/* Tabs */}
-        <div className="sticky top-0 z-10 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-          <div className="flex flex-wrap gap-2 sm:gap-3 py-4 border-b border-gray-200">
-            {steps.map((s, idx) => {
-              const Icon = iconMap[s.step] || Rocket;
-              const isActive = idx === activeIdx;
-              return (
-                <button
-                  key={s.step}
-                  type="button"
-                  onClick={() => setActiveIdx(idx)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/50 ${
-                    isActive
-                      ? 'border-blue-600 bg-blue-600 text-white shadow'
-                      : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50'
-                  }`}
-                  aria-pressed={isActive}
-                >
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-blue-600'}`} />
-                  <span className="hidden sm:inline">{s.title}</span>
-                  <span className="sm:hidden">Step {s.step}</span>
-                </button>
-              );
-            })}
-          </div>
+        {/* Funnel header */}
+        <div className="sticky top-0 z-10 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 py-4 border-b border-gray-200">
+          <Funnel steps={steps} activeIdx={activeIdx} onChange={setActiveIdx} />
         </div>
 
         {/* Active step content */}
         <div className="mt-8 grid gap-10">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-              <ActiveIcon className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-wider text-gray-500">Currently viewing</p>
-              <h3 className="text-lg font-semibold text-gray-900">{steps[activeIdx].title}</h3>
-            </div>
-          </div>
-
           <StepCard key={steps[activeIdx].step} {...steps[activeIdx]} />
         </div>
       </div>
